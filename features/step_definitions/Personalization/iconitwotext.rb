@@ -3,62 +3,59 @@ def iconitnotext
   iconarray = ["Baseball", "Crown"]
   iconcolorarray = ["Aqua", "Black"]
 
-  browser2 = @browser.frame(:name, "order_top")
+
+  if @count == 3
+
+    browser2 = @browser.frame(:name, "order_top")
 
 
-  excel = WIN32OLE::new("excel.Application")
-  wrkbook = excel.Workbooks.Open('C:\Users\awarns\Desktop\Summer 2013 Item Master Report.xlsx')
-  wrksheet = wrkbook.worksheets(2)
-  wrksheet.select
+    browser2.text_field(:id, "Itemcode").set(@productid)
+    browser2.text_field(:id, "QuantityList").set("1")
+    browser2.button(:value, "Add To Order").click
+    browser2 = @browser.frame(:name, "order_bottom")
+    sleep(2)
+    browser2.select_list(:index, 0).select("Icon-It w/o Text - add $7")
+    sleep(2)
 
 
-  productid = wrksheet.Cells(@rows, "F").value
-
-
-  wrkbook.close
-  excel.quit
-
-  browser2.text_field(:id, "Itemcode").set(productid)
-  browser2.text_field(:id, "QuantityList").set("1")
-  browser2.button(:value, "Add To Order").click
-  browser2 = @browser.frame(:name, "order_bottom")
-  sleep(2)
-  browser2.select_list(:index, 0).select("Icon-It w/o Text - add $7")
-  sleep(2)
-
-
-  arr = browser2.select_list(:index, 1).options.map(&:text)
-  num = arr.count
+    arr = browser2.select_list(:index, 1).options.map(&:text)
+    num = arr.count
 
 
 
 
-  ary = arr[1..num].sort
+    ary = arr[1..num].sort
 
 
-  if iconarray != ary
+    if iconarray != ary
 
 
-    puts "SKU #{productid}, has an issue with Icon It No Text Icon's Options"
+      puts "SKU #{@productid} - Icon It w/o Text - Icon Options are wrong"
+
+    end
+
+    arr = browser2.select_list(:index, 2).options.map(&:text)
+    num = arr.count
+
+
+    ary = arr[1..num].sort
+
+
+    if iconcolorarray != ary
+
+      puts "SKU #{@productid} - Icon It w/o Text - Icon Colors are wrong"
+
+    end
+
+
+
+    browser2.button(:value, "Cancel").click
+
+
 
   end
 
-  arr = browser2.select_list(:index, 2).options.map(&:text)
-  num = arr.count
 
-
-  ary = arr[1..num].sort
-
-
-  if iconcolorarray != ary
-
-    puts "SKU #{productid}, has an issue with Icon It No Text Icon Colors Available"
-
-  end
-
-
-
-  browser2.button(:value, "Cancel").click
 
 end
 

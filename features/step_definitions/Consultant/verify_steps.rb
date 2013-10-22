@@ -5,10 +5,10 @@ require 'watir'
 
 Given /^I Verify All Personalization Options$/ do
 
-  @rows = 3
+  @rows = 137
   @count = 1
 
-  while @rows < 5
+  while @rows < 140
 
     embroidery
     iconitnotext
