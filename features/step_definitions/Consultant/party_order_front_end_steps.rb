@@ -1,6 +1,6 @@
 When /^I validate items on a party order$/ do
 
-  @rows = 509
+  @rows = 240
 
 
   @count = 1
@@ -80,20 +80,37 @@ When /^I validate items on a party order$/ do
     browser2 =  @browser.frame(:name, "frm_bottom")
 
     personalization_code = wrksheet.Cells(@rows, "T").text
+    target_on_date = wrksheet.Cells(@rows, "K").text
+    target_off_date = wrksheet.Cells(@rows, "L").text
 
     if personalization_code == "None"
 
       if browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").exists? == false
 
-        puts "SKU #{productid} is not available on Party Orders"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
 
-        @rows = @rows + 1
+          puts "SKU #{productid} is not available on Party Orders but should be"
+
+          @rows = @rows + 1
+
+        else
+
+          @rows = @rows + 1
+
+        end
+
+
 
       else
 
         table_id = browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 0).text
         table_price =  browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 4).text
 
+        if target_off_date == "9/1/13"
+
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+
+        end
 
 
         if productid != table_id
@@ -119,9 +136,17 @@ When /^I validate items on a party order$/ do
 
       if browser2.link(:name, "btn_save").exists? == false
 
-        puts "SKU #{productid} is not available on Party Orders"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
 
-        @rows = @rows + 1
+          puts "SKU #{productid} is not available on Party Orders but should be"
+
+          @rows = @rows + 1
+
+        else
+
+          @rows = @rows + 1
+
+        end
 
       else
 
@@ -131,6 +156,12 @@ When /^I validate items on a party order$/ do
 
           table_id = browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 0).text
           table_price =  browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 4).text
+
+          if target_off_date == "9/1/13"
+
+            puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+
+          end
 
           if productid != table_id
 
