@@ -53,7 +53,7 @@ Given /^I validate all business supplies$/ do
 
     if browser2.table(:id => "DataGrid1").tr(:class => "table_data_style gv-item").table(:class => "gv").exists? == false
 
-      puts productid + " Could not be added to a business supply order"
+      puts "Sku #{productid} Could not be added to a business supply order"
 
       @rows = @rows + 1
 
@@ -134,7 +134,7 @@ Given /^I validate all business supplies for canada$/ do
 
 
     productid = wrksheet.Cells(@rows, "F").value
-    product_price = wrksheet.Cells(@rows, "Y").text
+    product_price = wrksheet.Cells(@rows, "AN").text
 
 
     @browser.text_field(:id, "Itemcode").set(productid)

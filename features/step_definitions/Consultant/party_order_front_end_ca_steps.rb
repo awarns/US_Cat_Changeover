@@ -57,7 +57,7 @@ Given /^I validate items on a party order for canada$/ do
 
   end
 
-  while @rows < 520
+  while @rows < 280
 
     product_desc = wrksheet.Cells(@rows, "G").text
 

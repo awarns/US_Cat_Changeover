@@ -52,6 +52,19 @@ def embroidery
 
    if @count == 2
 
+
+
+     @product_desc = @wrksheet.Cells(@rows, "G").text
+
+
+     while @product_desc =~ /.*Collegiate.*/
+
+       @rows = @rows + 1
+       @product_desc = @wrksheet.Cells(@rows, "G").text
+
+
+     end
+
      @productid = @wrksheet.Cells(@rows, "F").value
 
      browser2 = @browser.frame(:name, "order_top")

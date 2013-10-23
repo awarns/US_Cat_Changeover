@@ -65,7 +65,7 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
   end
 
-  while @rows < 550
+  while @rows < 400
 
     product_desc = wrksheet.Cells(@rows, "G").text
 
