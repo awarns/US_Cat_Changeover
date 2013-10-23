@@ -1,10 +1,10 @@
 Given /^I validate items on a party order for canada$/ do
-  @rows = 509
+  @rows = 270
 
 
   @count = 1
 
-  @server = "https://uatleaf.toguat.local"
+  @server = "https://testleaf.31gifts.corp"
 
   while @count == 1
 
@@ -12,17 +12,18 @@ Given /^I validate items on a party order for canada$/ do
     @browser.goto("#{@server}")
 
     @browser.link(:text, "Consultant Login").click
-    @browser.text_field(:id, "txt_username").set("102091")
+    @browser.text_field(:id, "txt_username").set("231217")
     @browser.text_field(:id, "txt_password").set("testing31")
     @browser.link(:id, "MasterContentBody1_btnLogin").click
     @browser.link(:text, "Order").click
     @browser.link(:text, /.*Party.*/).click
 
     @browser.text_field(:id, "ctl00_MasterContentBody1_event_date_dateInput").set("06/06/2013")
+    @browser.text_field(:id, "MasterContentBody1_shipping_info_txt_street_1").set("205 N. Nelson rd.")
+    @browser.text_field(:id, "MasterContentBody1_shipping_info_txtPostalCode").set("N8N 1A0")
     @browser.text_field(:id, "MasterContentBody1_ship_fname").set("Andy")
     @browser.text_field(:id, "MasterContentBody1_ship_lname").set("Warns")
-    @browser.text_field(:id, "MasterContentBody1_shipping_info_txt_street_1").set("205 N. Nelson rd.")
-    @browser.text_field(:id, "MasterContentBody1_shipping_info_txtPostalCode").set("43219")
+    @browser.text_field(:id, "MasterContentBody1_shipping_info_txt_city").set("Toronto")
 
 
 
@@ -70,7 +71,7 @@ Given /^I validate items on a party order for canada$/ do
 
 
     productid = wrksheet.Cells(@rows, "F").value
-    product_price = wrksheet.Cells(@rows, "Y").text
+    product_price = wrksheet.Cells(@rows, "AN").text
 
 
     @browser.text_field(:id, "Itemcode").set(productid)
@@ -103,7 +104,7 @@ Given /^I validate items on a party order for canada$/ do
 
         if  product_price != table_price
 
-          puts "The Price for " + productid + " is wrong. Item master says it should be " + product_price + " But on the order it was " + table_price
+          puts "The Price for Sku " + productid + " is wrong. Item master says it should be " + product_price + " But on the order it was " + table_price
 
         end
 
