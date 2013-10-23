@@ -115,7 +115,7 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
         if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
 
-          puts "SKU #{productid} is not available on Party Orders but should be"
+          puts "SKU #{productid} is not available on Hostess Half Price but should be"
 
           @rows = @rows + 1
 
@@ -189,7 +189,7 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
         if target_off_date == "9/1/13"
 
-          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Hostess Half Price Orders"
 
         end
 

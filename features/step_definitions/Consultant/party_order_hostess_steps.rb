@@ -108,7 +108,7 @@ When /^I validate hostess exclusives and credits$/ do
 
         if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
 
-          puts "SKU #{productid} is not available on Party Orders but should be"
+          puts "SKU #{productid} is not available on Hostess Half Price but should be"
 
           @rows = @rows + 1
 
@@ -128,7 +128,7 @@ When /^I validate hostess exclusives and credits$/ do
 
         if target_off_date == "9/1/13"
 
-          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Hostess Half Price Orders"
 
         end
 
@@ -141,7 +141,7 @@ When /^I validate hostess exclusives and credits$/ do
 
         if  product_price != table_price
 
-          puts "The Price for " + productid + " no Hostess Half Price is wrong. Item master says it should be " + product_price + " But on the order it was " + table_price
+          puts "The Price for " + productid + "  Hostess Half Price is wrong. Item master says it should be " + product_price + " But on the order it was " + table_price
 
         end
 
@@ -183,7 +183,7 @@ When /^I validate hostess exclusives and credits$/ do
 
         if target_off_date == "9/1/13"
 
-          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Hostess Half Price Orders"
 
         end
 
