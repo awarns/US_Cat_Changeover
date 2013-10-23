@@ -82,6 +82,8 @@ When /^I validate hostess exclusives and credits in ca$/ do
     productid = wrksheet.Cells(@rows, "F").value
     product_price = wrksheet.Cells(@rows, "AN").value
     product_price = product_price.to_i
+    target_on_date = wrksheet.Cells(@rows, "K").text
+    target_off_date = wrksheet.Cells(@rows, "L").text
 
     if product_purpose == "Hostess Exclusive"
 
@@ -111,9 +113,17 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
       if browser2.table(:id => "DataGrid1").tr(:class => "table_data_style gv-item").table(:class => "gv").exists? == false
 
-        puts "SKU #{productid} is not available as a Hostess Half Price on Party Orders"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
 
-        @rows = @rows + 1
+          puts "SKU #{productid} is not available on Party Orders but should be"
+
+          @rows = @rows + 1
+
+        else
+
+          @rows = @rows + 1
+
+        end
 
       else
 
@@ -122,6 +132,13 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
         table_price = table_price.split /[\$_]/
         table_price = table_price[1].to_f
+
+        if target_off_date == "9/1/13"
+
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+
+        end
+
 
         if productid != table_id
 
@@ -146,9 +163,17 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
       if browser2.link(:name, "btn_save").exists? == false
 
-        puts "SKU #{productid} is not available as Hostess Half price on Party Orders"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
 
-        @rows = @rows + 1
+          puts "SKU #{productid} is not available as a Hostess Half Price but should be"
+
+          @rows = @rows + 1
+
+        else
+
+          @rows = @rows + 1
+
+        end
 
       else
 
@@ -161,6 +186,12 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
         table_price = table_price.split /[\$_]/
         table_price = table_price[1].to_f
+
+        if target_off_date == "9/1/13"
+
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+
+        end
 
         if productid != table_id
 
