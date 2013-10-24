@@ -113,9 +113,9 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
       if browser2.table(:id => "DataGrid1").tr(:class => "table_data_style gv-item").table(:class => "gv").exists? == false
 
-        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13" and product_price != "#N/A"
 
-          puts "SKU #{productid} is not available on Hostess Half Price but should be"
+          puts "SKU #{productid} is not available on Hostess Half Price in Canada but should be"
 
           @rows = @rows + 1
 
@@ -135,7 +135,13 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
         if target_off_date == "9/1/13"
 
-          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Hostess Half Price in Canada"
+
+        end
+
+        if product_price == "#N/A"
+
+          puts "SKU #{productid} is available in Canada, but should not be"
 
         end
 
@@ -163,7 +169,7 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
       if browser2.link(:name, "btn_save").exists? == false
 
-        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13" and product_price != "#N/A"
 
           puts "SKU #{productid} is not available as a Hostess Half Price but should be"
 
@@ -190,6 +196,12 @@ When /^I validate hostess exclusives and credits in ca$/ do
         if target_off_date == "9/1/13"
 
           puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Hostess Half Price Orders"
+
+        end
+
+        if product_price == "#N/A"
+
+          puts "SKU #{productid} is available in Canada on Party Orders Hostess Half Price, but should not be"
 
         end
 
