@@ -1,5 +1,5 @@
 Given /^I validate items on a party order for canada$/ do
-  @rows = 607
+  @rows = 350
 
 
   @count = 1
@@ -12,7 +12,8 @@ Given /^I validate items on a party order for canada$/ do
     @browser.goto("#{@server}")
 
     @browser.link(:text, "Consultant Login").click
-    @browser.text_field(:id, "txt_username").set("231217")
+    @browser.text_field(:id, "txt_username").set("231211")
+
     @browser.text_field(:id, "txt_password").set("testing31")
     @browser.link(:id, "MasterContentBody1_btnLogin").click
     @browser.link(:text, "Order").click
@@ -23,6 +24,7 @@ Given /^I validate items on a party order for canada$/ do
     @browser.text_field(:id, "MasterContentBody1_shipping_info_txtPostalCode").set("N8N 1A0")
     @browser.text_field(:id, "MasterContentBody1_ship_fname").set("Andy")
     @browser.text_field(:id, "MasterContentBody1_ship_lname").set("Warns")
+    sleep(2)
     @browser.text_field(:id, "MasterContentBody1_shipping_info_txt_city").set("Toronto")
 
 
@@ -57,7 +59,7 @@ Given /^I validate items on a party order for canada$/ do
 
   end
 
-  while @rows < 610
+  while @rows < 714
 
     product_desc = wrksheet.Cells(@rows, "G").text
 
@@ -87,9 +89,9 @@ Given /^I validate items on a party order for canada$/ do
 
       if browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").exists? == false
 
-        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13" and product_price != "#N/A"
 
-          puts "SKU #{productid} is not available on Party Orders but should be"
+          puts "SKU #{productid} is not available on Party Orders in Canada but should be"
 
           @rows = @rows + 1
 
@@ -106,7 +108,13 @@ Given /^I validate items on a party order for canada$/ do
 
         if target_off_date == "9/1/13"
 
-          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders in Canada"
+
+        end
+
+        if product_price == "#N/A"
+
+          puts "SKU #{productid} is available in Canada, but should not be"
 
         end
 
@@ -119,7 +127,7 @@ Given /^I validate items on a party order for canada$/ do
 
         if  product_price != table_price
 
-          puts "The Price for Sku " + productid + " is wrong. Item master says it should be " + product_price + " But on the order it was " + table_price
+          puts "The Price for Sku " + productid + " is wrong in Canada. Item master says it should be " + product_price + " But on the order it was " + table_price
 
         end
 
@@ -134,9 +142,9 @@ Given /^I validate items on a party order for canada$/ do
 
       if browser2.link(:name, "btn_save").exists? == false
 
-        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13" and product_price != "#N/A"
 
-          puts "SKU #{productid} is not available on Party Orders but should be"
+          puts "SKU #{productid} is not available on Party Orders in Canada but should be"
 
           @rows = @rows + 1
 
@@ -157,10 +165,15 @@ Given /^I validate items on a party order for canada$/ do
 
         if target_off_date == "9/1/13"
 
-          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders in Canada"
 
         end
 
+        if product_price == "#N/A"
+
+          puts "SKU #{productid} is available in Canada on Party Orders, but should not be"
+
+        end
 
         if productid != table_id
 
@@ -170,7 +183,7 @@ Given /^I validate items on a party order for canada$/ do
 
         if  product_price != table_price
 
-          puts "The Price for " + productid + " is wrong. Item master says it should be " + product_price + " But on the order it was " + table_price
+          puts "The Price for SKU " + productid + " is wrong in Canada. Item master says it should be " + product_price + " But on the order it was " + table_price
 
         end
 
