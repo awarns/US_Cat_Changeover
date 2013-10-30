@@ -1,10 +1,10 @@
 When /^I setup products in the US$/ do
 
-  @server = "https://productstageus.31gifts.corp/"
+  @server = "https://productstageca.31gifts.corp/"
 
 
   @count = 1
-  @rows = 840
+  @rows = 839
 
 
   if @count == 1
