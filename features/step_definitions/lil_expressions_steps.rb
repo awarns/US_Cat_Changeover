@@ -47,37 +47,30 @@ When /^I validate lil expressions$/ do
 
   @productid = @wrksheet.Cells(@rows, "F").value
 
-  browser2 = @browser.frame(:name, "order_top")
-  browser2.select_list(:id, "PriceLevelList").select("Replacement Price")
 
-  browser2.text_field(:id, "Itemcode").set(@productid)
-  browser2.text_field(:id, "QuantityList").set("1")
-  browser2.button(:value, "Add To Order").click
-
-
-  if @browser.text.include?('That item or description that you entered could not be found in our database and cannot be added to your order') or @browser.text.include?('The item that you entered is not allowed for this type of order')
-
-
-
-    puts "SKU #{@productid} Could not be added to a replacement Order."
-
-    @count = 2
-
-
-  else
-
-    @count = 3
-
-  end
 
 
 end
 
 
-  lil_kids
-  lil_kids_2
-  lil_kids_initial_options
-  lil_kids_complete_options
+  @master_count = 0
+
+  while @master_count <= 1000
+
+    capture_options
+    @switch_pers_count = 1
+
+    while @switch_pers_count <= 2
+
+      lil_kids_complete_options
+      @switch_pers_count = @switch_pers_count + 1
+
+    end
+
+
+
+  end
+
 
 
 end
