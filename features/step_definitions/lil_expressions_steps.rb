@@ -60,7 +60,7 @@ end
     capture_options
     @switch_pers_count = 1
 
-    while @switch_pers_count <= 2
+    while @switch_pers_count <= 5
 
       lil_kids_complete_options
       @switch_pers_count = @switch_pers_count + 1

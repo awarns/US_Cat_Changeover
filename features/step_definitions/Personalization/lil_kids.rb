@@ -51,9 +51,11 @@ def lil_kids_complete_options
   count = 1
   option_count = 1
 
+
+
   lil_kids
 
-  puts @lil_kids_hash
+  @message = ""
 
   while kid_count <= 6 and @browser2.select_list(:index, @index_count).exists?
 
@@ -67,6 +69,8 @@ def lil_kids_complete_options
     @browser2.select_list(:index, @index_count).select(@kid_pet)
     @index_count = @index_count + 1
     count = 1
+
+    @message << "#{@kid_pet} - "
 
 
     while @browser2.select_list(:index, @index_count).exists? == true and count == 1
@@ -82,13 +86,35 @@ def lil_kids_complete_options
         option_count = 1
         count = 2
         kid_count = kid_count + 1
+        @message << "\n"
 
 
       else
 
-        @browser2.select_list(:index, @index_count).select( @lil_kids_hash["#{@kid_pet}_option_#{option_count}"])
-        @index_count = @index_count + 1
-        option_count = option_count + 1
+        if arr.include?(@lil_kids_hash["#{@kid_pet}_option_#{option_count}"])
+
+          @browser2.select_list(:index, @index_count).select(@lil_kids_hash["#{@kid_pet}_option_#{option_count}"])
+
+          @message << " #{@lil_kids_hash["#{@kid_pet}_option_#{option_count}"]} - "
+
+          @index_count = @index_count + 1
+          option_count = option_count + 1
+
+
+
+        else
+
+
+          @message << " #{@lil_kids_hash["#{@kid_pet}_option_#{option_count}"]} - FAILED "
+
+
+          @index_count = @index_count + 1
+          option_count = option_count + 1
+
+        end
+
+
+
 
 
       end
@@ -104,6 +130,7 @@ def lil_kids_complete_options
   @master_count = @master_count + 1
   sleep(3)
   @browser2.button(:value, "Cancel").click
+  puts @message
 
 
 end
@@ -187,6 +214,8 @@ def capture_options
 
 
   @browser2.button(:value, "Cancel").click
+  puts "New Combination of Choices"
+
 
 
 end
