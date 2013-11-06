@@ -119,6 +119,7 @@ def lil_kids_complete_options
   lil_kids
 
   @message = ""
+  @message_2 = ""
 
   while kid_count <= 6
 
@@ -145,7 +146,7 @@ def lil_kids_complete_options
 
     else
 
-     @message << "Error. Could not Find DropDown to select next Kid ***** FAILED \n"
+    @message << "Error. Could not Find DropDown to select next Kid ***** FAILED \n"
     kid_count = 7
 
 
@@ -180,6 +181,7 @@ def lil_kids_complete_options
           @browser2.select_list(:index, @index_count).select(@lil_kids_hash["#{@kid_pet}_option_#{option_count}"])
 
           @message << " #{@lil_kids_hash["#{@kid_pet}_option_#{option_count}"]} - "
+          @message_2 << "#{@kid_pet} - "
 
           @index_count = @index_count + 1
           option_count = option_count + 1
@@ -207,6 +209,7 @@ def lil_kids_complete_options
   sleep(3)
   @browser2.button(:value, "Cancel").click
   puts @message
+  puts @message_2
 
 
 end
