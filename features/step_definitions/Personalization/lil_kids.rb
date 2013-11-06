@@ -19,125 +19,11 @@ def lil_kids
 
 end
 
-
-def lil_kids_different_pers_option
-
-
-  arr = @browser2.select_list(:index, @index_count).options.map(&:text)
-  arr.shift
-
-
-  while @browser2.select_list(:index, @index_count).exists? == true and arr.include?('Yes') == false
-
-    num = rand(arr.count)
-    option = arr[num]
-
-    @browser2.select_list(:index, @index_count).select(option)
-    @index_count = @index_count + 1
-
-    arr = @browser2.select_list(:index, @index_count).options.map(&:text)
-    arr.shift
-
-
-  end
-
-
-
-end
-
-def lil_kids_complete_options
-
-  kid_count = 1
-  count = 1
-  option_count = 1
-
-
-
-  lil_kids
-
-  @message = ""
-
-  while kid_count <= 6 and @browser2.select_list(:index, @index_count).exists?
-
-
-    arr = @browser2.select_list(:index, @index_count).options.map(&:text)
-    arr.shift
-
-    num = rand(arr.count)
-    @kid_pet = arr[num]
-
-    @browser2.select_list(:index, @index_count).select(@kid_pet)
-    @index_count = @index_count + 1
-    count = 1
-
-    @message << "#{@kid_pet} - "
-
-
-    while @browser2.select_list(:index, @index_count).exists? == true and count == 1
-
-      arr = @browser2.select_list(:index, @index_count).options.map(&:text)
-      arr.shift
-
-      if arr.include?('Yes') == true
-
-        @browser2.select_list(:index, @index_count).select('Yes')
-        @index_count = @index_count + 1
-
-        option_count = 1
-        count = 2
-        kid_count = kid_count + 1
-        @message << "\n"
-
-
-      else
-
-        if arr.include?(@lil_kids_hash["#{@kid_pet}_option_#{option_count}"])
-
-          @browser2.select_list(:index, @index_count).select(@lil_kids_hash["#{@kid_pet}_option_#{option_count}"])
-
-          @message << " #{@lil_kids_hash["#{@kid_pet}_option_#{option_count}"]} - "
-
-          @index_count = @index_count + 1
-          option_count = option_count + 1
-
-
-
-        else
-
-
-          @message << " #{@lil_kids_hash["#{@kid_pet}_option_#{option_count}"]} - FAILED "
-
-
-          @index_count = @index_count + 1
-          option_count = option_count + 1
-
-        end
-
-
-
-
-
-      end
-
-
-    end
-
-
-
-  end
-
-
-  @master_count = @master_count + 1
-  sleep(3)
-  @browser2.button(:value, "Cancel").click
-  puts @message
-
-
-end
-
 def capture_options
 
   lil_kids
+
+  sleep(2)
 
   loop_count = 0
   kid_pet_count = 0
@@ -151,6 +37,7 @@ def capture_options
   kid_pet_count = arr.count
 
   @lil_kids_hash = Hash.new
+  @lil_kids_count_hash = Hash.new
 
   while loop_count < kid_pet_count
 
@@ -180,7 +67,11 @@ def capture_options
         @browser2.select_list(:index, @index_count).select('Yes')
         @index_count = @index_count + 1
 
+        sleep(2)
+
         @browser2.button(:value, "Cancel").click
+
+        @lil_kids_count_hash["#{@kid_pet}"] = option_count
 
         lil_kids
 
@@ -206,18 +97,119 @@ def capture_options
 
     end
 
-
-
-
-
   end
 
 
   @browser2.button(:value, "Cancel").click
-  puts "New Combination of Choices"
-
+  puts "New Combination of Choices ---------------------------------------------"
 
 
 end
+
+
+
+def lil_kids_complete_options
+
+  kid_count = 1
+  count = 1
+  option_count = 1
+
+
+
+  lil_kids
+
+  @message = ""
+
+  while kid_count <= 6
+
+
+    if kid_count == 6
+
+      kid_count = kid_count + 1
+
+    end
+
+    if  @browser2.select_list(:index, @index_count).exists?
+
+    arr = @browser2.select_list(:index, @index_count).options.map(&:text)
+    arr.shift
+
+    num = rand(arr.count)
+    @kid_pet = arr[num]
+
+    @browser2.select_list(:index, @index_count).select(@kid_pet)
+    @index_count = @index_count + 1
+    count = 1
+
+    @message << "#{@kid_pet} - "
+
+    else
+
+     @message << "Error. Could not Find DropDown to select next Kid ***** FAILED \n"
+    kid_count = 7
+
+
+   end
+
+    while @browser2.select_list(:index, @index_count).exists? == true and count == 1
+
+      arr = @browser2.select_list(:index, @index_count).options.map(&:text)
+      arr.shift
+
+      if arr.include?('Yes') == true and @lil_kids_count_hash["#{@kid_pet}"] == option_count
+
+        @browser2.select_list(:index, @index_count).select('Yes')
+        @index_count = @index_count + 1
+
+        option_count = 1
+        count = 2
+        kid_count = kid_count + 1
+        @message << "\n"
+
+
+      elsif arr.include?('Yes') == true and @lil_kids_count_hash["#{@kid_pet}"] != option_count
+
+        @message << " ERROR - Could not add option #{@lil_kids_hash["#{@kid_pet}_option_#{option_count}"]} because dropdown for option did not present itself ***** FAILED \n"
+        count = 2
+        kid_count = 7
+
+      else
+
+        if arr.include?(@lil_kids_hash["#{@kid_pet}_option_#{option_count}"])
+
+          @browser2.select_list(:index, @index_count).select(@lil_kids_hash["#{@kid_pet}_option_#{option_count}"])
+
+          @message << " #{@lil_kids_hash["#{@kid_pet}_option_#{option_count}"]} - "
+
+          @index_count = @index_count + 1
+          option_count = option_count + 1
+
+
+          else
+
+
+          @message << "ERROR - #{@lil_kids_hash["#{@kid_pet}_option_#{option_count}"]} Could not be added because option was not in dropdown ***** FAILED "
+
+          @index_count = @index_count + 1
+          kid_count = 7
+          option_count = @lil_kids_count_hash["#{@kid_pet}"]
+
+        end
+
+      end
+
+    end
+
+  end
+
+
+  @master_count = @master_count + 1
+  sleep(3)
+  @browser2.button(:value, "Cancel").click
+  puts @message
+
+
+end
+
 
 
