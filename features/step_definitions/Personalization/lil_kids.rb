@@ -13,7 +13,7 @@ def lil_kids
 
   sleep(2)
 
-  @browser2.select_list(:index, @index_count).select("Name below each Lil'")
+  @browser2.select_list(:index, @index_count).select("Phrase centered below all Lils'")
 
   @index_count = @index_count + 1
 

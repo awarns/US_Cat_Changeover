@@ -11,6 +11,8 @@ When /^I validate lil expressions$/ do
 
     @browser= Watir::Browser.new :chrome
     @browser.goto("#{@server}/admin")
+    sleep(8)
+
     @browser.text_field(:id, "ContentPlaceHolder1_txt_username").set("1387")
     @browser.text_field(:id, "ContentPlaceHolder1_txt_password").set("testing31")
     @browser.link(:id, "ContentPlaceHolder1_btnLogin").click
