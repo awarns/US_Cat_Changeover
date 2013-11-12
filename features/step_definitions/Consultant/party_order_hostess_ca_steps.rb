@@ -80,7 +80,7 @@ When /^I validate hostess exclusives and credits in ca$/ do
 
     product_purpose = wrksheet.Cells(@rows, "N").text
     productid = wrksheet.Cells(@rows, "F").value
-    product_price = wrksheet.Cells(@rows, "AN").value
+    product_price = wrksheet.Cells(@rows, "AO").value
     product_price = product_price.to_i
     target_on_date = wrksheet.Cells(@rows, "K").text
     target_off_date = wrksheet.Cells(@rows, "L").text

@@ -73,7 +73,7 @@ Given /^I validate items on a party order for canada$/ do
 
 
     productid = wrksheet.Cells(@rows, "F").value
-    product_price = wrksheet.Cells(@rows, "AN").text
+    product_price = wrksheet.Cells(@rows, "AO").text
 
 
     @browser.text_field(:id, "Itemcode").set(productid)
