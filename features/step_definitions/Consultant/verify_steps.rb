@@ -5,8 +5,10 @@ require 'watir'
 
 Given /^I Verify All Personalization Options$/ do
 
-  @rows = 137
+  @rows = 92
   @count = 1
+
+  @country = "US"
 
   while @rows < 140
 

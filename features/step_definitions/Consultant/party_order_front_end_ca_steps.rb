@@ -1,11 +1,10 @@
-When /^I validate items on a party order$/ do
-
-  @rows = 240
+Given /^I validate items on a party order for canada$/ do
+  @rows = 350
 
 
   @count = 1
 
-  @server = "https://uatpps.toguat.local"
+  @server = "https://testleaf.31gifts.corp"
 
   while @count == 1
 
@@ -13,17 +12,20 @@ When /^I validate items on a party order$/ do
     @browser.goto("#{@server}")
 
     @browser.link(:text, "Consultant Login").click
-    @browser.text_field(:id, "txt_username").set("102091")
+    @browser.text_field(:id, "txt_username").set("231211")
+
     @browser.text_field(:id, "txt_password").set("testing31")
     @browser.link(:id, "MasterContentBody1_btnLogin").click
     @browser.link(:text, "Order").click
     @browser.link(:text, /.*Party.*/).click
 
     @browser.text_field(:id, "ctl00_MasterContentBody1_event_date_dateInput").set("06/06/2013")
+    @browser.text_field(:id, "MasterContentBody1_shipping_info_txt_street_1").set("205 N. Nelson rd.")
+    @browser.text_field(:id, "MasterContentBody1_shipping_info_txtPostalCode").set("N8N 1A0")
     @browser.text_field(:id, "MasterContentBody1_ship_fname").set("Andy")
     @browser.text_field(:id, "MasterContentBody1_ship_lname").set("Warns")
-    @browser.text_field(:id, "MasterContentBody1_shipping_info_txt_street_1").set("205 N. Nelson rd.")
-    @browser.text_field(:id, "MasterContentBody1_shipping_info_txtPostalCode").set("43219")
+    sleep(2)
+    @browser.text_field(:id, "MasterContentBody1_shipping_info_txt_city").set("Toronto")
 
 
 
@@ -57,7 +59,7 @@ When /^I validate items on a party order$/ do
 
   end
 
-  while @rows < 520
+  while @rows < 714
 
     product_desc = wrksheet.Cells(@rows, "G").text
 
@@ -71,7 +73,7 @@ When /^I validate items on a party order$/ do
 
 
     productid = wrksheet.Cells(@rows, "F").value
-    product_price = wrksheet.Cells(@rows, "Y").text
+    product_price = wrksheet.Cells(@rows, "AO").text
 
 
     @browser.text_field(:id, "Itemcode").set(productid)
@@ -87,9 +89,9 @@ When /^I validate items on a party order$/ do
 
       if browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").exists? == false
 
-        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13" and product_price != "#N/A"
 
-          puts "SKU #{productid} is not available on Party Orders but should be"
+          puts "SKU #{productid} is not available on Party Orders in Canada but should be"
 
           @rows = @rows + 1
 
@@ -99,8 +101,6 @@ When /^I validate items on a party order$/ do
 
         end
 
-
-
       else
 
         table_id = browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 0).text
@@ -108,7 +108,13 @@ When /^I validate items on a party order$/ do
 
         if target_off_date == "9/1/13"
 
-          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders in Canada"
+
+        end
+
+        if product_price == "#N/A"
+
+          puts "SKU #{productid} is available in Canada, but should not be"
 
         end
 
@@ -121,7 +127,7 @@ When /^I validate items on a party order$/ do
 
         if  product_price != table_price
 
-          puts "The Price for " + productid + " is wrong. Item master says it should be " + product_price + " But on the order it was " + table_price
+          puts "The Price for Sku " + productid + " is wrong in Canada. Item master says it should be " + product_price + " But on the order it was " + table_price
 
         end
 
@@ -136,9 +142,9 @@ When /^I validate items on a party order$/ do
 
       if browser2.link(:name, "btn_save").exists? == false
 
-        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
+        if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13" and product_price != "#N/A"
 
-          puts "SKU #{productid} is not available on Party Orders but should be"
+          puts "SKU #{productid} is not available on Party Orders in Canada but should be"
 
           @rows = @rows + 1
 
@@ -150,45 +156,54 @@ When /^I validate items on a party order$/ do
 
       else
 
-          sleep(3)
-          browser2.select_list(:index, 0).select("None")
-          browser2.link(:name, "btn_save").click
+        sleep(3)
+        browser2.select_list(:index, 0).select("None")
+        browser2.link(:name, "btn_save").click
 
-          table_id = browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 0).text
-          table_price =  browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 4).text
+        table_id = browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 0).text
+        table_price =  browser2.table(:id => "DataGrid1").tr(:class => "gv-alt-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 4).text
 
-          if target_off_date == "9/1/13"
+        if target_off_date == "9/1/13"
 
-            puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders"
+          puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on Party Orders in Canada"
 
-          end
+        end
 
-          if productid != table_id
+        if product_price == "#N/A"
 
-            puts "Product ID " + productid + " Did not match what was on the order " + table_id
+          puts "SKU #{productid} is available in Canada on Party Orders, but should not be"
 
-          end
+        end
 
-          if  product_price != table_price
+        if productid != table_id
 
-            puts "The Price for " + productid + " is wrong. Item master says it should be " + product_price + " But on the order it was " + table_price
+          puts "Product ID " + productid + " Did not match what was on the order " + table_id
 
-          end
+        end
 
-          browser2.link(:text => "Remove").click
+        if  product_price != table_price
 
-          @rows = @rows + 1
+          puts "The Price for SKU " + productid + " is wrong in Canada. Item master says it should be " + product_price + " But on the order it was " + table_price
+
+        end
+
+        browser2.link(:text => "Remove").click
+
+        @rows = @rows + 1
 
 
 
       end
 
 
-     end
+    end
 
 
 
 
   end
+
+
+
 
 end

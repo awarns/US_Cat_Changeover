@@ -43,6 +43,8 @@ Given /^I validate all business supplies$/ do
 
     productid = wrksheet.Cells(@rows, "F").value
     product_price = wrksheet.Cells(@rows, "Y").text
+    target_on_date = wrksheet.Cells(@rows, "K").text
+    target_off_date = wrksheet.Cells(@rows, "L").text
 
 
     @browser.text_field(:id, "Itemcode").set(productid)
@@ -53,14 +55,28 @@ Given /^I validate all business supplies$/ do
 
     if browser2.table(:id => "DataGrid1").tr(:class => "table_data_style gv-item").table(:class => "gv").exists? == false
 
-      puts productid + " Could not be added to a business supply order"
+      if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13"
 
-      @rows = @rows + 1
+        puts "SKU #{productid} is not available as a Business Supply but should be"
+
+        @rows = @rows + 1
+
+      else
+
+        @rows = @rows + 1
+
+      end
 
     else
 
       table_id = browser2.table(:id => "DataGrid1").tr(:class => "table_data_style gv-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 0).text
       table_price =  browser2.table(:id => "DataGrid1").tr(:class => "table_data_style gv-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 4).text
+
+      if target_off_date == "9/1/13"
+
+        puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on business supply orders"
+
+      end
 
 
       if productid != table_id
@@ -134,7 +150,9 @@ Given /^I validate all business supplies for canada$/ do
 
 
     productid = wrksheet.Cells(@rows, "F").value
-    product_price = wrksheet.Cells(@rows, "Y").text
+    product_price = wrksheet.Cells(@rows, "AN").text
+    target_on_date = wrksheet.Cells(@rows, "K").text
+    target_off_date = wrksheet.Cells(@rows, "L").text
 
 
     @browser.text_field(:id, "Itemcode").set(productid)
@@ -145,15 +163,35 @@ Given /^I validate all business supplies for canada$/ do
 
     if browser2.table(:id => "DataGrid1").tr(:class => "table_data_style gv-item").table(:class => "gv").exists? == false
 
-      puts productid + " Could not be added to a business supply order"
+      if target_on_date == "9/1/13" or nil and target_off_date != "9/1/13" and product_price != "#N/A"
 
-      @rows = @rows + 1
+        puts "SKU #{productid} is not available as a Business Supply in Canada but should be"
+
+        @rows = @rows + 1
+
+      else
+
+        @rows = @rows + 1
+
+      end
 
     else
 
       table_id = browser2.table(:id => "DataGrid1").tr(:class => "table_data_style gv-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 0).text
       table_price =  browser2.table(:id => "DataGrid1").tr(:class => "table_data_style gv-item").table(:class => "gv").tr(:class => "table_data_style gv-item").cell(:index => 4).text
 
+
+      if target_off_date == "9/1/13"
+
+        puts "SKU #{productid} has an off date of #{target_off_date}, but is still available on business supply orders in Canada"
+
+      end
+
+      if product_price == "#N/A"
+
+        puts "SKU #{productid} is available in Canada, but should not be"
+
+      end
 
       if productid != table_id
 
