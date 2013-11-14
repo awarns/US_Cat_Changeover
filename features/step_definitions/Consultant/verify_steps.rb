@@ -8,6 +8,8 @@ Given /^I Verify All Personalization Options$/ do
   @rows = 92
   @count = 1
 
+  @country = "US"
+
   while @rows < 140
 
     embroidery

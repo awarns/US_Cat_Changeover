@@ -56,6 +56,13 @@ def embroidery
 
      @product_desc = @wrksheet.Cells(@rows, "G").text
 
+     while product_price == "#N/A" and @country == "CA"
+
+       @rows = @rows + 1
+       product_price = @wrksheet.Cells(@rows, "AN").text
+
+     end
+
 
      while @product_desc =~ /.*Collegiate.*/
 
