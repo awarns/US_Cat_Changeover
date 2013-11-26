@@ -7,12 +7,12 @@ require 'watir'
 def embroidery
 
 
-  @server = "https://uatpps.toguat.local"
+  @server = "https://productstageus.31gifts.corp"
 
 
 
-  colorarry = ["Aqua", "Black", "Brown"]
-  fontarry = [10, 12, 13, 15]
+  colorarry = ["Aqua", "Black", "Brown", "Breezy Blue" ,"Burgundy", "Burnt Orange", "Coral Pink", "Forest Green", "Golden Yellow", "Hot Pink", "Kelly Green", "Lavender", "Lime Green", "Limeaid","Lemon Yellow", "Maroon", "Navy Blue", "Oatmeal", "Orange", "Platinum", "Powder Pink", "Purple", "Raspberry", "Red", "Royal Blue", "Sunset Gold", "Tangerine", "Turquoise", "White" ]
+  fontarry = ['10', '12', '13', '15', '17', '19', '30', '31', '32', '33', '39', '40', '42', '43', '44', '47', '49', '70', '72', '73', '74', '79']
 
 
   if @count == 1
@@ -55,6 +55,7 @@ def embroidery
 
 
      @product_desc = @wrksheet.Cells(@rows, "G").text
+     product_price = @wrksheet.Cells(@rows, "AO").text
 
      while product_price == "#N/A" and @country == "CA"
 
@@ -73,6 +74,7 @@ def embroidery
      end
 
      @productid = @wrksheet.Cells(@rows, "F").value
+     @target_off_date = @wrksheet.Cells(@rows, "L").value
 
      browser2 = @browser.frame(:name, "order_top")
      browser2.select_list(:id, "PriceLevelList").select("Replacement Price")
@@ -105,7 +107,7 @@ def embroidery
 
       browser2 = @browser.frame(:name, "order_bottom")
       sleep(2)
-      browser2.select_list(:index, 0).select("Embroidery - add $7")
+      browser2.select_list(:index, 0).select(/.*Embroidery.*/)
       sleep(1)
 
 
@@ -114,9 +116,11 @@ def embroidery
 
 
       ary = arr[1..num].sort
+      colorarry = colorarry.sort
+      @target_off_date = @target_off_date.to_s
 
 
-      if colorarry != ary
+      if colorarry != ary and @target_off_date != '2013-12-21 00:00:00 -0500'
 
         puts "SKU #{@productid} - Embroidery - Thread Colors are wrong"
 
@@ -132,7 +136,7 @@ def embroidery
       ary = arr[1..num].sort
 
 
-      if fontarry != ary
+      if fontarry != ary and @target_off_date != '2013-12-21 00:00:00 -0500'
 
         puts "SKU #{@productid} - Embroidery - Font Style's are wrong"
 

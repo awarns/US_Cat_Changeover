@@ -1,9 +1,9 @@
 def iconitwithtext
 
 
-  iconarray = ["Baseball", "Crown"]
-  iconcolorarray = ["Aqua", "Black"]
-  iconfontstylearray = [10 ,12]
+  iconarray = ["Baseball", "Basketball", "Butterfly", "Football","Paw Print", "Soccer Ball", "Tiara", "3D Stars", "Auto Racer", "Chick", "Daisy"]
+  iconcolorarray = ["Aqua", "Black", "Brown", "Breezy Blue", "Burgundy", "Burnt Orange", "Coral Pink", "Forest Green", "Golden Yellow", "Hot Pink", "Kelly Green", "Lavender", "Lime Green", "Limeaid","Lemon Yellow", "Maroon", "Navy Blue", "Oatmeal", "Orange", "Platinum", "Powder Pink", "Purple", "Raspberry", "Red", "Royal Blue", "Sunset Gold", "Tangerine", "Turquoise", "White" ]
+  iconfontstylearray = ['10', '12', '13', '15', '17', '19']
 
 
   if @count == 3
@@ -22,7 +22,7 @@ def iconitwithtext
     browser2 = @browser.frame(:name, "order_bottom")
     sleep(2)
     browser2.select_list(:index, 0).wait_until_present
-    browser2.select_list(:index, 0).select("Icon-It with Text - add $10")
+    browser2.select_list(:index, 0).select(/.*Icon-It with Text.*/)
     sleep(2)
 
     browser2.select_list(:index, 1).wait_until_present
@@ -31,9 +31,10 @@ def iconitwithtext
 
 
     ary = arr[1..num].sort
+    iconarray = iconarray.sort
+    iconcolorarray = iconcolorarray.sort
 
-
-    if iconarray != ary
+    if iconarray != ary and @target_off_date != '2013-12-21 00:00:00 -0500'
 
 
       puts "SKU #{@productid} - Icon It With Text - Icon's Options are wrong"
@@ -47,7 +48,7 @@ def iconitwithtext
     ary = arr[1..num].sort
 
 
-    if iconcolorarray != ary
+    if iconcolorarray != ary and @target_off_date != '2013-12-21 00:00:00 -0500'
 
       puts "SKU #{@productid} - Icon It With Text - Icon Colors are wrong"
 
@@ -60,7 +61,7 @@ def iconitwithtext
     ary = arr[1..num].sort
 
 
-    if iconcolorarray != ary
+    if iconcolorarray != ary and @target_off_date != '2013-12-21 00:00:00 -0500'
 
       puts "SKU #{@productid} - Icon It With Text - Icon Colors are wrong"
 
@@ -73,7 +74,7 @@ def iconitwithtext
     ary = arr[1..num].sort
 
 
-    if iconfontstylearray != ary
+    if iconfontstylearray != ary and @target_off_date != '2013-12-21 00:00:00 -0500'
 
       puts "SKU #{@productid} - Icon It with Text - Font Style Options are wrong"
 
